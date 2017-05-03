@@ -75,7 +75,7 @@ ws=wb_trace.active
 min_row=2
 max_row=58
 min_col=2
-max_col=36
+max_col=37
 gray='FF808080'
 for row in range(min_row,max_row+1):
     for col in range(min_col,max_col+1):
