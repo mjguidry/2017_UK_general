@@ -11,6 +11,7 @@ import numpy as np
 import colorsys
 from openpyxl import load_workbook
 import pickle
+import re
 import os
 from numpy import array, zeros
 from openpyxl import Workbook
@@ -71,11 +72,11 @@ def isAdjacent(state,gray_dict):
 # First, get outline
 gray_dict=dict()
 wb_trace=load_workbook('UK_trace.xlsx',read_only=True)
-ws=wb_trace.active
+ws=wb_trace["Northern Ireland"]
 min_row=2
-max_row=58
+max_row=6
 min_col=2
-max_col=37
+max_col=7
 gray='FF808080'
 for row in range(min_row,max_row+1):
     for col in range(min_col,max_col+1):
@@ -85,14 +86,11 @@ for row in range(min_row,max_row+1):
             gray_dict[(row-min_row+1,col-min_col+1)]=''
 
 #Second, get constituency geographic data
-pkl_file=open('GB_centroids.pkl','rb')
+pkl_file=open('NI_centroids.pkl','rb')
 centroids=pickle.load(pkl_file)
 pkl_file.close()
 constituency_keys=sorted(centroids.keys())
 cells=sorted(gray_dict.keys())
-
-constituency_keys.remove('Orkney and Shetland')
-constituency_keys.remove('Na h-Eileanan an Iar')
 
 constituency_arr=[]
 for constituency in constituency_keys:
@@ -131,7 +129,7 @@ if(os.path.isfile('UK_block_map.xlsx')):
     wb=load_workbook('UK_block_map.xlsx')    
 else:
     wb=Workbook()
-ws1=wb.create_sheet("GB")
+ws1=wb.create_sheet("NI")
 for cell in gray_dict:
     ws1.cell(row=cell[0],column=cell[1]).value=gray_dict[cell]
     comment = Comment(gray_dict[cell], 'Mike Guidry')
