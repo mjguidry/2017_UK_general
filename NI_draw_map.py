@@ -86,7 +86,7 @@ for row in range(min_row,max_row+1):
             gray_dict[(row-min_row+1,col-min_col+1)]=''
 
 #Second, get constituency geographic data
-pkl_file=open('NI_centroids.pkl','rb')
+pkl_file=open('NI_centroids.pkl','r')
 centroids=pickle.load(pkl_file)
 pkl_file.close()
 constituency_keys=sorted(centroids.keys())

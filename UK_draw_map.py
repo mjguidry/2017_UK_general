@@ -109,15 +109,25 @@ for row in range(min_row,max_row+1):
             gray_dict[(row-min_row+1,col-min_col+1)]=''
 
 #Second, get constituency geographic data
-pkl_file=open('GB_centroids.pkl','rb')
+pkl_file=open('GB_centroids.pkl','r')
 centroids=pickle.load(pkl_file)
 pkl_file.close()
 constituency_keys=sorted(centroids.keys())
-cells=sorted(gray_dict.keys())
 
 constituency_keys.remove('Orkney and Shetland')
 constituency_keys.remove('Na h-Eileanan an Iar')
+del centroids['Orkney and Shetland']
+del centroids['Na h-Eileanan an Iar']
 
+island_flag=1
+if(island_flag):
+    constituency_keys.remove('Ynys Mon')
+    constituency_keys.remove('Isle of Wight')
+    del gray_dict[(24,10)]
+    del gray_dict[(25,10)]
+
+
+cells=sorted(gray_dict.keys())
 constituency_arr=[]
 for constituency in constituency_keys:
     constituency_arr.append(constituency)
@@ -143,6 +153,12 @@ for k in range(len(best_arr[0])):
     constituency=constituency_arr[best_arr[0][k]]
     gray_dict[cells[best_arr[1][k]]]=constituency
 
+if(island_flag):
+    gray_dict[(37,15)]='Ynys Mon'
+    gray_dict[(54,22)]='Isle of Wight'
+    color_dict['Ynys Mon']='808080'
+    color_dict['Isle of Wight']='808080'
+    
 adj=[isAdjacent(constituency,gray_dict) for constituency in constituencies]
 print 'Adjacent constituencies = '+str(len([x for x in adj if x==True]))
 print 'Non-adjacent constituencies = '+str(len([x for x in adj if x==False]))
@@ -151,6 +167,9 @@ ft=Font('Arial',size=6)
 redFill = PatternFill(start_color=colors.RED,
                    end_color=colors.RED,
                    fill_type='solid')
+whiteFill = PatternFill(start_color=colors.WHITE,
+                   end_color=colors.WHITE,
+                   fill_type='solid')                   
 if(os.path.isfile('UK_block_map.xlsx')):
     wb=load_workbook('UK_block_map.xlsx')    
 else:
@@ -171,5 +190,6 @@ for cell in gray_dict:
     ws1.cell(row=cell[0],column=cell[1]).fill=fill
     ws1.column_dimensions[_get_column_letter(cell[1])].width=2.8
     ws1.row_dimensions[cell[0]].height=20
+
     
 wb.save(r'UK_block_map.xlsx')

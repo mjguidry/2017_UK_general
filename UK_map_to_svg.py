@@ -11,9 +11,9 @@ temp_dir=tempfile.tempdir
 
 # This is the input sheet
 tmp_file=r'UK_block_map.xlsx'
-sheet='GB'
-start_cell='I6'
-end_cell='AJ56'
+sheet='UK'
+start_cell='C1'
+end_cell='AJ60'
 addText=False
 joinCells=True
 

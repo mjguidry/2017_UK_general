@@ -108,6 +108,7 @@ mode="RGB"
 wales_color=ImageColor.getcolor('green',mode)
 scotland_color=ImageColor.getcolor('blue',mode)
 england_color=ImageColor.getcolor('red',mode)
+ni_color=ImageColor.getcolor('orange',mode)
 colors=dict()
 colors['East Midlands']=ImageColor.getcolor('#cc5242',mode)
 colors['Eastern']=ImageColor.getcolor('#5fb85b',mode)
@@ -137,6 +138,8 @@ with open('Westminster_Parliamentary_Constituencies_December_2016_Names_and_Code
                 ImageDraw.floodfill(img,(x,y),scotland_color)
             elif(code[0]=='E'):
                 ImageDraw.floodfill(img,(x,y),england_color)
+            else:
+                ImageDraw.floodfill(img,(x,y),ni_color)
 html=urllib2.urlopen('https://en.wikipedia.org/wiki/List_of_United_Kingdom_Parliament_constituencies')
 soup=BeautifulSoup(html)
 tables=soup.findAll("table")
